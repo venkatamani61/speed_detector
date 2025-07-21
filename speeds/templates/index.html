@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Speed Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 40px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="file"], input[type="radio"] {
+            padding: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+        }
+        .video-container {
+            margin-top: 30px;
+        }
+        img {
+            max-width: 90%;
+            height: auto;
+            border: 2px solid #444;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vehicle Speed Detection</h1>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <h3>Select Input Type:</h3>
+        <label>
+            <input type="radio" name="input_mode" value="file" checked>
+            Upload Video File
+        </label>
+        <label>
+            <input type="radio" name="input_mode" value="camera">
+            Use Live Camera
+        </label>
+
+        <div id="fileInput">
+            <br>
+            <input type="file" name="video_file" accept="video/*">
+        </div>
+
+        <br>
+        <button type="submit">Start Detection</button>
+    </form>
+
+    {% if show_video %}
+    <div class="video-container">
+        <h2>Processed Video Stream:</h2>
+        <img src="{{ url_for('video_feed') }}">
+    </div>
+    {% endif %}
+
+    <script>
+        // Toggle file input based on radio selection
+        const fileInputDiv = document.getElementById("fileInput");
+        const radios = document.getElementsByName("input_mode");
+
+        radios.forEach(radio => {
+            radio.addEventListener("change", () => {
+                fileInputDiv.style.display = (radio.value === "file" && radio.checked) ? "block" : "none";
+            });
+        });
+    </script>
+</body>
+</html>
